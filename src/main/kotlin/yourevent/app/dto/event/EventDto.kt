@@ -11,13 +11,13 @@ data class EventDto(
     val status: String?,
     val price: Int,
     val categoryId: Int,
+    var categoryName: String,
     val createdDate: Timestamp?,
     val startDate: Timestamp,
     val endDate: Timestamp,
     val address: String,
     val description: String,
     val userId: Int,
-    var isCompleted: Boolean? = false,
     var people: Int,
 ) {
     fun toEntity(userEntity: UserEntity, categoryEntity: CategoryEntity): EventEntity = EventEntity(

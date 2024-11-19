@@ -31,7 +31,9 @@ class SecurityConfiguration(
                         "/yourevent/auth/login",
                         "/yourevent/auth/register",
                         "/yourevent/auth/refresh",
-                        "/error"
+                        "/error",
+                        "/yourevent/agencies/all/services",
+                        "/yourevent/agencies/{agencyId}/services"
                     ).permitAll()  // Эндпоинты, доступные без аутентификации
                     .requestMatchers(HttpMethod.POST, "/yourevent/user").permitAll()  // Регистрация доступна всем
                     .requestMatchers("/yourevent/users**").hasRole("ADMIN")  // Доступ только для ролей ADMIN

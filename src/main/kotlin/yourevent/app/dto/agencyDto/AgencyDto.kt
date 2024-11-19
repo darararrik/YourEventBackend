@@ -12,7 +12,6 @@ data class AgencyDto(
     val registrationDate: Timestamp,
     val verified: Boolean,
     val contactInfo: AgencyContactInfoDto,
-    val password: String,
 )
 {
 

@@ -37,7 +37,6 @@ class EventEntity(
 
     @Column(name = "event_description") var description: String,
 
-    @Column(name = "event_is_completed") var isCompleted: Boolean = false,
     @Column(name = "event_people") var people: Int,
 
     ) {
@@ -52,9 +51,9 @@ class EventEntity(
         address = this.address,
         description = this.description,
         userId = userEntity.id,
-        isCompleted = isCompleted,
         people = people,
         price = price,
+        categoryName = categoryEntity.name,
     )
 }
 

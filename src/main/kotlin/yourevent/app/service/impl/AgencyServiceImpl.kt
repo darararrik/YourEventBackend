@@ -6,20 +6,21 @@ import org.springframework.stereotype.Service
 import yourevent.app.dto.agencyDto.AddressDto
 import yourevent.app.dto.agencyDto.AgencyContactInfoDto
 import yourevent.app.dto.agencyDto.AgencyDto
-import yourevent.app.entity.AgencyServiceEntity
+import yourevent.app.entity.ServiceAgencyEntity
 import yourevent.app.entity.agency.AddressEntity
 import yourevent.app.entity.agency.AgencyContactInfoEntity
 import yourevent.app.entity.agency.AgencyEntity
 import yourevent.app.exception.AgencyNotFoundException
 import yourevent.app.repository.AgencyRepo
-import yourevent.app.repository.AgencyServiceRepo
+import yourevent.app.repository.ServicesAgencyRepo
 import yourevent.app.repository.ServiceRepo
 import yourevent.app.service.AgencyService
+import java.math.BigDecimal
 
 @Service
 class AgencyServiceImpl(
     private val agencyRepo: AgencyRepo,
-    private val agencyServiceRepo: AgencyServiceRepo,
+    private val agencyServiceRepo: ServicesAgencyRepo,
     private val serviceRepo: ServiceRepo
 ) : AgencyService {
     override fun getAll(pageIndex: Int): List<AgencyDto> =
@@ -57,11 +58,15 @@ class AgencyServiceImpl(
     }
 
 
-    override fun addServiceToAgency(agencyId: Int, serviceId: Int) {
+    override fun addServiceToAgency(agencyId: Int, serviceId: Int, price: BigDecimal) {
         val agency = agencyRepo.findById(agencyId).orElseThrow { Exception("Agency not found") }
         val service = serviceRepo.findById(serviceId).orElseThrow { Exception("Service not found") }
 
-        val agencyService = AgencyServiceEntity(agency = agency, service = service)
+        val agencyService = ServiceAgencyEntity(
+            agency = agency,
+            service = service,
+            price = price
+        )
         agencyServiceRepo.save(agencyService)
     }
 
@@ -70,6 +75,7 @@ class AgencyServiceImpl(
             .orElseThrow { Exception("Agency not found") }
             .toDto()
     }
+
     private fun AgencyDto.toEntity() = AgencyEntity(
         id = 0,
         name = name,
@@ -84,7 +90,6 @@ class AgencyServiceImpl(
                 building = contactInfo.address.building
             )
         ),
-        password = password
     )
 
     private fun AgencyEntity.toDto() = AgencyDto(
@@ -101,7 +106,6 @@ class AgencyServiceImpl(
                 building = contactInfo.address.building
             )
         ),
-        password = password
     )
 
 

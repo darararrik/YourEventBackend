@@ -14,17 +14,11 @@ import yourevent.app.service.ServiceService
 class ServiceServiceImpl(
     private val serviceTypeRepo: ServiceTypeRepo, private val serviceRepo: ServiceRepo
 ) : ServiceService {
-    //    override fun createService(name: String, serviceTypeId: Int): ServiceDto {
-//        val serviceType =
-//            serviceTypeRepo.findById(serviceTypeId).orElseThrow { Exception("Service Type not found") }
-//        val serviceEntity = ServiceEntity(name = name, serviceType = serviceType)
-//        serviceTypeRepo.save(serviceType)
-//        return serviceEntity.toDto(serviceEntity)
-//    }
 
 
-    override fun getById(id: Int): ServiceDto =
-        serviceRepo.findByIdOrNull(id)?.toDto() ?: throw ServiceNotFoundException(id)
+
+//    override fun getByAgencyId(id: Int): ServiceDto =
+//        serviceRepo.findByAgencyId(id)?.toDto() ?: throw ServiceNotFoundException(id)
 
 
 }
