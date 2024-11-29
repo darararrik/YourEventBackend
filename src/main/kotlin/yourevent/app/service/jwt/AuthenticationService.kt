@@ -74,26 +74,24 @@ class AuthenticationService(
             )
     }
 
-    fun refreshAccessToken(refreshToken: String): String? {
-        // Проверка и извлечение email из refresh токена
+    fun refreshAccessToken(refreshToken: String): Pair<String, String>? {
+        // Проверяем валидность refresh токена
         val extractedEmail = tokenService.extractEmail(refreshToken)
+            ?: return null // Если email не удалось извлечь, токен некорректен
 
-        if (extractedEmail == null) {
-            return null // Если не удалось извлечь email, то токен некорректен
+        // Проверяем, что токен не истёк
+        if (tokenService.isExpired(refreshToken)) {
+            return null // Токен просрочен
         }
 
+        // Загружаем данные пользователя
         val currentUserDetails = userDetailsService.loadUserByUsername(extractedEmail)
 
-        // Проверка на наличие соответствующего refresh токена в базе данных
-        val refreshTokenUserDetails = refreshTokenRepository.findUserDetailsByToken(refreshToken)
+        // Генерируем новый access и refresh токены
+        val newAccessToken = createAccessToken(currentUserDetails)
+        val newRefreshToken = createRefreshToken(currentUserDetails)
 
-        // Убедитесь, что refresh токен не просрочен и что userDetails из токена совпадают с данными в базе
-        return if (!tokenService.isExpired(refreshToken) && refreshTokenUserDetails?.username == currentUserDetails.username) {
-            // Создание нового access токена
-            createAccessToken(currentUserDetails)
-        } else {
-            null // Если токен просрочен или некорректен, возвращаем null
-        }
+        return Pair(newAccessToken, newRefreshToken)
     }
 
     private fun createAccessToken(user: UserDetails) = tokenService.generate(

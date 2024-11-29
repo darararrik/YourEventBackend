@@ -7,10 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import yourevent.app.config.JwtProperties
 import java.util.*
+
 //Создает JWT токены, проверяет их валидность и срок действия.
 @Service
 class TokenService(
-    jwtProperties: JwtProperties
+    private val jwtProperties: JwtProperties
 ) {
 
     private val secretKey = Keys.hmacShaKeyFor(
@@ -56,4 +57,10 @@ class TokenService(
             .parseSignedClaims(token)
             .payload
     }
+
+    fun getAccessTokenExpiration(): Date =
+        Date(System.currentTimeMillis() + jwtProperties.accessTokenExpiration)
+
+    fun getRefreshTokenExpiration(): Date =
+        Date(System.currentTimeMillis() + jwtProperties.refreshTokenExpiration)
 }

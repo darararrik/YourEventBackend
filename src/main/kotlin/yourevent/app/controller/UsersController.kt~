@@ -37,5 +37,15 @@ class UsersController(val userService: UserService) {
         return userService.createUser(dto)
     }
 
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: Int, @RequestBody dto: UserDto) {
+        userService.updateUser(id, dto)
 
+    }
+
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: Int) {
+        userService.deleteUser(id)
+
+    }
 }

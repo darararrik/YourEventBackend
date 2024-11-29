@@ -1,0 +1,3 @@
+package yourevent.app.entity
+
+data class AgencyDeatailsEntity()

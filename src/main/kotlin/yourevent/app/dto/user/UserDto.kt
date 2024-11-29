@@ -10,6 +10,7 @@ data class UserDto(
     val email: String,
     val city: String? = null,
     val password: String,
+    val urlAvatar: String?,
 
     ) {
     fun toEntity(encryptedPassword: String) = UserEntity(

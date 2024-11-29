@@ -1,6 +1,7 @@
 package yourevent.app.entity.user
 
 import jakarta.persistence.*
+import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import yourevent.app.dto.user.UserDto
 import yourevent.app.entity.event.EventEntity
@@ -36,7 +37,10 @@ class UserEntity(
 
     @Enumerated(EnumType.STRING)  // Используем строковое значение enum
     @Column(name = "user_role")
-    val role: Role = Role.USER
+    val role: Role = Role.USER,
+
+    @Column(name = "user_avatar_url")
+    var urlAvatar: String = "https://firebasestorage.googleapis.com/v0/b/yourevent0app.appspot.com/o/Avatar.png?alt=media&token=59055445-530a-490c-9101-265c307ecfd4",
 ) {
     fun toDto() = UserDto(
         id = id,
@@ -45,10 +49,11 @@ class UserEntity(
         email = email,
         city = city,
         password = password,
+        urlAvatar = urlAvatar,
     )
 
     fun mapToUserDetails(): UserDetails =
-        org.springframework.security.core.userdetails.User.builder()
+        User.builder()
             .username(this.email)
             .password(this.password)
             .build()

@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.DefaultSecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
@@ -29,13 +30,11 @@ class SecurityConfiguration(
                 it
                     .requestMatchers(
                         "/yourevent/auth/login",
-                        "/yourevent/auth/register",
-                        "/yourevent/auth/refresh",
+                        "/yourevent/auth/register",// Регистрация доступна всем
                         "/error",
-                        "/yourevent/agencies/all/services",
-                        "/yourevent/agencies/{agencyId}/services"
+                        "/yourevent/auth/refresh"
                     ).permitAll()  // Эндпоинты, доступные без аутентификации
-                    .requestMatchers(HttpMethod.POST, "/yourevent/user").permitAll()  // Регистрация доступна всем
+                    .requestMatchers(HttpMethod.POST, "/yourevent/user").permitAll()
                     .requestMatchers("/yourevent/users**").hasRole("ADMIN")  // Доступ только для ролей ADMIN
                     .requestMatchers("/yourevent/user/me")
                     .authenticated()  // Эндпоинт /me доступен только авторизованным пользователям
@@ -49,4 +48,11 @@ class SecurityConfiguration(
 
         return http.build()
     }
+
+    @Bean
+    fun passwordEncoder(): BCryptPasswordEncoder {
+        return BCryptPasswordEncoder()
+    }
+
+
 }

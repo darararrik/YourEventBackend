@@ -1,14 +1,14 @@
 package yourevent.app.entity
 
 import jakarta.persistence.*
-import yourevent.app.dto.ServiceAgencyDto
+import yourevent.app.dto.AgencyServiceDto
 import yourevent.app.entity.agency.AgencyEntity
 import java.math.BigDecimal
 
 
 @Entity
 @Table(name = "agency_services")
-data class ServiceAgencyEntity(
+data class AgencyServiceEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "agency_service_id", nullable = false)
@@ -27,11 +27,10 @@ data class ServiceAgencyEntity(
 
 
 ) {
-    fun toDto(): ServiceAgencyDto = ServiceAgencyDto(
+    fun toDto(): AgencyServiceDto = AgencyServiceDto(
         agencyName = agency.name,
         serviceName = service.name,
         serviceTypeName = service.serviceType.name,
         price = price,
     )
 }
-/**/

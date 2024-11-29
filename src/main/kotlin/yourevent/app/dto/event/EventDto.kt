@@ -11,7 +11,7 @@ data class EventDto(
     val status: String?,
     val price: Int,
     val categoryId: Int,
-    var categoryName: String,
+    var categoryName: String?,
     val createdDate: Timestamp?,
     val startDate: Timestamp,
     val endDate: Timestamp,

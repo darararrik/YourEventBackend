@@ -1,13 +1,8 @@
 package yourevent.app.dto
 
-import jakarta.persistence.Column
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import yourevent.app.entity.ServiceEntity
-import yourevent.app.entity.agency.AgencyEntity
 import java.math.BigDecimal
 
-data class ServiceAgencyDto(
+data class AgencyServiceDto(
     val agencyName: String,        // Название агентства
     val serviceName: String,       // Название услуги
     val serviceTypeName: String,   // Тип услуги
