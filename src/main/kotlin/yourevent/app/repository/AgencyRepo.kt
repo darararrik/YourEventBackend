@@ -9,5 +9,4 @@ interface AgencyRepo : JpaRepository<AgencyEntity, Int> {
     fun findByNameStartsWithIgnoreCaseOrderByName(prefix: String): List<AgencyEntity>
 
 
-
 }
