@@ -23,6 +23,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("io.github.cdimascio:java-dotenv:5.2.2")
     implementation("io.jsonwebtoken:jjwt-api:0.12.3")
     implementation("io.jsonwebtoken:jjwt-impl:0.12.3")
     implementation("io.jsonwebtoken:jjwt-jackson:0.12.3")
@@ -35,7 +36,14 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
-
+tasks {
+    jar {
+        enabled = true
+    }
+    bootJar {
+        enabled = true // Генерирует fat-jar для Docker
+    }
+}
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")

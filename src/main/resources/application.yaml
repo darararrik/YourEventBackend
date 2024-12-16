@@ -13,7 +13,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 jwt:
-  key: ${JWT_KEY}
+  key: ${JWT_SECRET_KEY}
   access-token-expiration: 604800000
   refresh-token-expiration: 2592000000
 server:

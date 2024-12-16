@@ -1,5 +1,6 @@
 package yourevent.app.service.jwt
 
+import io.github.cdimascio.dotenv.Dotenv
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
@@ -13,11 +14,12 @@ import java.util.*
 class TokenService(
     private val jwtProperties: JwtProperties
 ) {
+    // Загрузка ключа из .env файла
+    // Загрузка ключа из .env файла
+    private val jwtSecretKey: String = Dotenv.load().get("JWT_SECRET_KEY")!!
 
-    private val secretKey = Keys.hmacShaKeyFor(
-        jwtProperties.key.toByteArray()
-    )
-
+    // Создаем секретный ключ из строки (Base64)
+    private val secretKey = Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtSecretKey))
     fun generate(
         userDetails: UserDetails,
         expirationDate: Date,
